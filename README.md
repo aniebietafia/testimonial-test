@@ -1,8 +1,6 @@
-# [App Name] Integration Documentation
+# HNG Integration Documentation
 
 ## Overview
-
-[Description]
 
 ## Folder Structure
 
@@ -21,6 +19,7 @@
 - TypeScript
 - Express
 - ts-node-dev
+- postgres
 
 ## Getting Started
 
@@ -30,16 +29,133 @@ Before you begin, ensure you have the following installed on your machine:
 - [npm](https://www.npmjs.com/) (Node Package Manager, included with Node.js)
 - [Git](https://git-scm.com/)
 
-## Contribution Guide
+## Usage
+
+### Register User `POST /api/v1/auth/register`
+
+- Request
+
+```json
+{
+  "fullname": "John Doe",
+  "email": "test@email.com",
+  "password": "password"
+}
+```
+
+- Response
+
+```json
+{
+  "status": "success",
+  "message": "User registered successfully",
+  "data": {
+    "id": 1,
+    "fullname": "John Doe",
+    "email": "test@email.com",
+    "created_at": "2021-08-01T00:00:00.000Z"
+  }
+}
+```
+
+### Login User `POST /api/v1/auth/login`
+
+- Request
+
+```json
+{
+  "email": "test@email.com",
+  "password": "password"
+}
+```
+
+- Response
+
+```json
+{
+  "status": "success",
+  "message": "User logged in successfully",
+  "data": {
+    "id": 1,
+    "fullname": "John Doe",
+    "email": "test@email.com"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjI4NzQwNjI4LCJleHAiOjE2Mjg3NDQyMjh9.7"
+}
+```
+
+### Add a Testimonial `POST /api/v1/testimonials`
+
+- Request
+
+```json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjI4NzQwNjI4LCJleHAiOjE2Mjg3NDQyMjh9.7
+{
+  "client_name": "John Doe",
+  "client_position": "Backend Developer",
+  "testimonial": "This is a great platform to showcase my skills."
+}
+```
+
+- Response
+
+```json
+{
+  "status": "success",
+  "message": "Testimonial added successfully",
+  "data": {
+    "id": 1,
+    "client_name": "John Doe",
+    "client_position": "Backend Developer",
+    "testimonial": "This is a great platform to showcase my skills.",
+    "created_at": "2021-08-01T00:00:00.000Z"
+  }
+}
+```
+
+### Get All Testimonials `GET /api/v1/testimonials`
+
+- Response
+
+```json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjI4NzQwNjI4LCJleHAiOjE2Mjg3NDQyMjh9.7
+{
+  "status": "success",
+  "message": "Testimonials retrieved successfully",
+  "data": [
+    {
+      "id": 1,
+      "client_name": "John Doe",
+      "client_position": "Backend Developer",
+      "testimonial": "This is a great platform to showcase my skills.",
+      "created_at": "2021-08-01T00:00:00.000Z"
+    }
+  ]
+}
+```
+
+### Get a Testimonial `GET /api/v1/testimonials/:id`
+
+- Response
+
+```json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjI4NzQwNjI4LCJleHAiOjE2Mjg3NDQyMjh9.7
+{
+  "status": "success",
+  "message": "Testimonial retrieved successfully",
+  "data": {
+    "id": 1,
+    "client_name": "John Doe",
+    "client_position": "Backend Developer",
+    "testimonial": "This is a great platform to showcase my skills.",
+    "created_at": "2021-08-01T00:00:00.000Z"
+  }
+}
+```
 
 ## Getting Started
 
 #### If you don't have git on your machine, [install it](https://docs.github.com/en/get-started/quickstart/set-up-git).
-
-## Fork this repository
-
-Fork this repository by clicking on the fork button on the top of this page.
-This will create a copy of this repository in your account.
 
 ## Clone the repository
 

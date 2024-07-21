@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, Unique } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 import { IsEmail, Length } from "class-validator";
 import ExtendedBaseEntity from "./extended-base-entity";
@@ -20,6 +20,12 @@ export class User extends ExtendedBaseEntity {
 
   @Column()
   password: string;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 12);

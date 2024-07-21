@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import ExtendedBaseEntity from "./extended-base-entity";
 
 @Entity()
@@ -17,4 +17,10 @@ export class Testimonial extends ExtendedBaseEntity {
 
   @Column()
   testimonial: string;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }
