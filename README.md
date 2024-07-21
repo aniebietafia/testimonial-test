@@ -31,6 +31,8 @@ Before you begin, ensure you have the following installed on your machine:
 
 ## Usage
 
+### BASE_URL `https://stage-4-task-11cf1241cb5d.herokuapp.com`
+
 ### Register User `POST /api/v1/auth/register`
 
 - Request
