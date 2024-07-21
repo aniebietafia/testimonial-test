@@ -1,20 +1,9 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  OneToOne,
-  OneToMany,
-  ManyToMany,
-  Unique,
-  JoinTable,
-  JoinColumn,
-} from "typeorm";
-import { Profile } from "./Profile";
-import { Product } from "./Product";
-import { Organization } from "./Organization";
+import { Entity, PrimaryGeneratedColumn, Column, Unique } from "typeorm";
+
 import { IsEmail, Length } from "class-validator";
 import ExtendedBaseEntity from "./extended-base-entity";
 import { getIsInvalidMessage } from "../utils";
+import bcrypt from "bcryptjs";
 
 @Entity()
 @Unique(["email"])
@@ -32,17 +21,11 @@ export class User extends ExtendedBaseEntity {
   @Column()
   password: string;
 
-  @OneToOne(() => Profile, (profile) => profile.user, { cascade: true })
-  @JoinColumn()
-  profile: Profile;
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 12);
+  }
 
-  @OneToMany(() => Product, (product) => product.user, { cascade: true })
-  @JoinTable()
-  products: Product[];
-
-  @ManyToMany(() => Organization, (organization) => organization.users, {
-    cascade: true,
-  })
-  @JoinTable()
-  organizations: Organization[];
+  async comparePassword(password: string) {
+    return await bcrypt.compare(password, this.password);
+  }
 }

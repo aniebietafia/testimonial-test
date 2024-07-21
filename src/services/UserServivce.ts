@@ -17,4 +17,26 @@ export class UserService implements IUserService {
     });
     return users;
   }
+
+  public async registerUser(name: string, email: string, password: string): Promise<User> {
+    const user = new User();
+    user.name = name;
+    user.email = email;
+    user.password = password;
+    await user.hashPassword();
+    await user.save();
+    return user;
+  }
+
+  public async loginUser(email: string, password: string): Promise<User | null> {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return null;
+    }
+    const isValidPassword = await user.comparePassword(password);
+    if (!isValidPassword) {
+      return null;
+    }
+    return user;
+  }
 }

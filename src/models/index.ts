@@ -1,4 +1,2 @@
-export * from "./User"
-export * from "./Organization"
-export * from "./Profile"
-export * from "./Product"
+export * from "./User";
+export * from "./Testimonial";
