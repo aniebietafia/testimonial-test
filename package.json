@@ -48,5 +48,8 @@
     "node": "20.15.1",
     "yarn": "4.3.1"
   },
-  "packageManager": "yarn@4.3.1"
+  "packageManager": "yarn@4.3.1",
+  "resolutions": {
+    "@types/node": "20.14.11"
+  }
 }
