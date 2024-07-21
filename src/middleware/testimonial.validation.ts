@@ -7,7 +7,6 @@ export const validateTestimonial = [
   body("testimonial").notEmpty().withMessage("Testimonial is required"),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
-    console.log(errors);
     if (!errors.isEmpty()) {
       return res.status(422).json({ message: "Validation failed", status_code: 422, errors: errors.array() });
     }
