@@ -1,11 +1,23 @@
-// src/routes/user.ts
 import { Router } from "express";
-import UserController from "../controllers/UserController";
+import { UserController } from "../controllers/UserController";
+import { authMiddleware } from "../middleware/authMiddleware";
+import { multerConfig } from "../config/multer";
 
-const userRouter = Router();
+const upload = multerConfig.single("avatarUrl");
+
+const userRoute = Router();
 const userController = new UserController();
 
-userRouter.post("/users", userController.registerUser.bind(userController));
-userRouter.post("/login", userController.loginUser.bind(userController));
+userRoute.put(
+  "/users/:id",
+  authMiddleware,
+  upload,
+  userController.updateUserProfile.bind(userController)
+);
+userRoute.get(
+  "/users/:id",
+  authMiddleware,
+  userController.getUserById.bind(userController)
+);
 
-export default userRouter;
+export default userRoute;

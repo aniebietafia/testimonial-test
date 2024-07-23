@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyToken } from "../utils/jwt";
-import { User } from "../models/User";
+import { User } from "../models/user";
 
 interface AuthenticatedUserRequest extends Request {
   user?: User;
@@ -23,24 +23,46 @@ export const authMiddleware = async (
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(400).json({ status: "Bad Request", message: "Bad Request", status_code: 400 });
+      return res
+        .status(400)
+        .json({
+          status: "Bad Request",
+          message: "Bad Request",
+          status_code: 400,
+        });
     }
 
     const token = authHeader.split(" ")[1];
     if (!token) {
-      return res.status(401).json({ status: "Unauthorized", message: "Invalid token", status_code: 401 });
+      return res
+        .status(401)
+        .json({
+          status: "Unauthorized",
+          message: "Invalid token",
+          status_code: 401,
+        });
     }
 
     const payload = verifyToken(token);
 
     if (!payload) {
-      return res.status(401).json({ status: "Unauthorized", message: "Unauthorized", status_code: 401 });
+      return res
+        .status(401)
+        .json({
+          status: "Unauthorized",
+          message: "Unauthorized",
+          status_code: 401,
+        });
     }
 
-    const user = await User.findOne({ where: { email: payload["email"] as string } });
+    const user = await User.findOne({
+      where: { email: payload["email"] as string },
+    });
 
     if (!user) {
-      return res.status(404).json({ status: "error", message: "User not found", status_code: 404 });
+      return res
+        .status(404)
+        .json({ status: "error", message: "User not found", status_code: 404 });
     }
 
     req.user = user;
@@ -48,6 +70,10 @@ export const authMiddleware = async (
   } catch (error) {
     return res
       .status(401)
-      .json({ status: "INTERNAL_SERVER_ERROR", message: "INTERNAL_SERVER_ERROR", status_code: 500 });
+      .json({
+        status: "INTERNAL_SERVER_ERROR",
+        message: "INTERNAL_SERVER_ERROR",
+        status_code: 500,
+      });
   }
 };

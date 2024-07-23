@@ -1,9 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Unique,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
+} from "typeorm";
 
 import { IsEmail, Length } from "class-validator";
 import ExtendedBaseEntity from "./extended-base-entity";
 import { getIsInvalidMessage } from "../utils";
-import bcrypt from "bcryptjs";
+
+import { Profile } from "./profile";
 
 @Entity()
 @Unique(["email"])
@@ -21,17 +31,13 @@ export class User extends ExtendedBaseEntity {
   @Column()
   password: string;
 
+  @OneToOne(() => Profile, (profile) => profile.user, { cascade: true })
+  @JoinColumn()
+  profile: Profile;
+
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
-
-  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 12);
-  }
-
-  async comparePassword(password: string) {
-    return await bcrypt.compare(password, this.password);
-  }
 }

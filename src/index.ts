@@ -3,8 +3,9 @@ import { AppDataSource } from "./data-source";
 import log from "./utils/logger";
 import express, { Express, Request, Response } from "express";
 import config from "./config";
-import userRouter from "./routes/user";
+import authRoute from "./routes/auth";
 import testimonialRouter from "./routes/testimonial";
+import userRoute from "./routes/user";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -18,8 +19,9 @@ AppDataSource.initialize()
     server.get("/", (req: Request, res: Response) => {
       res.send("Hello world");
     });
-    server.use("/api/v1", userRouter);
+    server.use("/api/v1", authRoute);
     server.use("/api/v1", testimonialRouter);
+    server.use("/api/v1", userRoute);
 
     server.listen(port, () => {
       log.info(`Server is listening on port ${port}`);

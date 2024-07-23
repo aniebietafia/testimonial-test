@@ -1,8 +1,6 @@
 import "reflect-metadata";
 import { DataSource, Tree } from "typeorm";
 import config from "./config";
-import { UserTestimonyTable1721580424926 } from "./migrations/1721580424926-UserTestimonyTable";
-import { User, Testimonial } from "./models";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -11,10 +9,9 @@ export const AppDataSource = new DataSource({
   username: config.DB_USER,
   password: config.DB_PASSWORD,
   database: config.DB_NAME,
-  synchronize: false,
+  synchronize: true,
   logging: false,
-  entities: [User, Testimonial],
-  migrations: [UserTestimonyTable1721580424926],
+  entities: ["src/models/**/*.ts"],
   ssl: true,
   extra: {
     ssl: {
@@ -22,20 +19,32 @@ export const AppDataSource = new DataSource({
     },
   },
 });
-// export const AppDataSource = new DataSource({
+
+// import "reflect-metadata";
+// import { DataSource } from "typeorm";
+// import config from "./config";
+
+// const isDevelopment = config.NODE_ENV === "development";
+
+// const AppDataSource = new DataSource({
 //   type: "postgres",
 //   host: config.DB_HOST,
 //   port: 5432,
 //   username: config.DB_USER,
 //   password: config.DB_PASSWORD,
 //   database: config.DB_NAME,
-//   synchronize: true,
+//   synchronize: isDevelopment,
 //   logging: false,
 //   entities: ["src/models/**/*.ts"],
-//   ssl: true,
-//   extra: {
-//     ssl: {
-//       rejectUnauthorized: false,
-//     },
-//   },
+//   migrations: ["src/migrations/**/*.ts"],
+//   migrationsTableName: "migrations",
 // });
+
+// export async function initializeDataSource() {
+//   if (!AppDataSource.isInitialized) {
+//     await AppDataSource.initialize();
+//   }
+//   return AppDataSource;
+// }
+
+// export default AppDataSource;

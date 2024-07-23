@@ -1,2 +1,3 @@
-export * from "./User";
-export * from "./Testimonial";
+export * from "./user";
+export * from "./testimonial";
+export * from "./profile";
